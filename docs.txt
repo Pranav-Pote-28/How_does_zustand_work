@@ -67,3 +67,44 @@ selector function:
     const addCourse = useCourseStore((state) => state.addCourse);
     (Subscribes only to addCourse)	
     tracks only the addCourse and is efficient 
+
+============================================
+
+const {courses, removeCourse, togglecourseStatus} = useCoursestore(
+    (state)=>(
+        {courses: state.courses, removeCourse: state.removeCourse, togglecourseStatus: state.togglecourseStatus }
+    )
+);
+
+Here’s the magic 🪄:
+1️⃣ We don’t need the entire store, just courses, removeCourse, and togglecourseStatus.
+2️⃣ The callback (state) => ({ ... }) picks only these specific values from the store.
+3️⃣ This helps in performance optimization because only these values will trigger re-renders (instead of the whole store).
+
+------------------------------------------------------------------------
+
+What happens if we don’t pass a callback?
+❌ If you do this:
+
+const { courses, removeCourse, togglecourseStatus } = useCoursestore();
+
+⚠️ It won’t work because useCoursestore() returns the entire store, not just { courses, removeCourse, togglecourseStatus }.
+⚠️ Issue: This grabs the entire store and destructures it.
+👉 But the problem is, Zustand won't know which values to track, leading to unnecessary re-renders.x    
+
+You would have to manually extract them like this:
+
+const store = useCoursestore();
+const courses = store.courses;
+const removeCourse = store.removeCourse;
+const togglecourseStatus = store.togglecourseStatus;
+
+
+Which is messy and inefficient. 😵‍💫
+
+Step-by-Step Breakdown:
+1️⃣ We pass a callback function to useCoursestore().
+2️⃣ We destructure the returned object
+🔹 Now, courses, removeCourse, and togglecourseStatus are available as separate variables.
+
+=================================================================================
