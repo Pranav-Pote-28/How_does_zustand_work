@@ -1,0 +1,69 @@
+whats a State Management ?
+    State management is a way to keep track of and update data (state) in an application, especially when multiple parts of the app need to share the same data.
+
+Why do we need it?
+    In a React app, each component has its own state. But when different components need to share and update the same data, managing it can become messy. State management helps keep everything in sync.
+
+Example without state management:
+    Imagine a shopping cart in an e-commerce app. If you add an item, both the cart icon (in the navbar) and the cart page should update. Without proper state management, keeping them in sync can be difficult.
+
+Example with state management:
+    A global store (like Zustand, Redux, or React Context) keeps the cart data in one place. Whenever the cart updates, all components using that data update automatically.
+
+whats Zustand ?
+    Zustand is a simple and lightweight state management library for React. It helps manage global state (data that multiple components need to share) without the complexity of other tools like Redux.
+
+Initial setup :
+
+npx create-react-app zustand_tutorial
+cd zustand_tutorial
+npm run
+
+whats a store ?
+    Think of a store as a global storage room for your app’s data, where multiple components can get or update shared information without passing props around.
+
+whats set in create((set)=>({ states....})) ?
+    Yes, the set in (set) => {} is a parameter in the function passed to Zustand’s create() method.
+
+    set is a function provided by Zustand that allows you to update the store’s state.
+    It works similarly to React’s setState(), but for a global store.
+
+    ✅ set is provided by Zustand and is used to update state.
+    ✅ It merges new state changes into the store.
+    ✅ Works similarly to setState but for global state.
+
+So Yes, courseStore is like a Big Function!
+    ✔ It holds the state (courses: []).
+    ✔ It has actions (addCourse modifies the state).
+    ✔ Zustand wraps all of this inside create() and gives us a hook to use anywhere in our React app.
+
+Yes! courseStore is a custom hook that Zustand creates for you.CourseStore has a set of states and actions to use from , like below
+
+courses: [] --> state
+addCourses: ()=>{  --> action
+    set( ()=>{} ) 
+}
+
+=========================================
+
+devtools and persist are zustand ,middlewares
+
+✅ devtools → Helps you see and debug Zustand state using Redux DevTools.
+✅ persist → Saves Zustand state in local storage, so data doesn’t reset after a page refresh.
+
+1️⃣ Without persist: You add a course → Refresh page → Course is gone ❌
+2️⃣ With persist: You add a course → Refresh page → Course is still there ✅
+
+to check goto inspect -> application -> local Storage ...
+
+=========================================
+
+destructuring: 
+    const { addCourse } = useCourseStore();	
+    (Subscribes to the whole store)
+    re renders the whole state as it tracks all states insie the useCourseStore hook
+
+selector function:
+    const addCourse = useCourseStore((state) => state.addCourse);
+    (Subscribes only to addCourse)	
+    tracks only the addCourse and is efficient 
